@@ -48,3 +48,15 @@ Route::get('plugins', [PluginController::class, 'index']);
 Route::get('plugins/create', [PluginController::class, 'create']);
 
 Route::get('plugins/{plugin}', [PluginController::class, 'show']);
+
+/* uso de group */
+
+/*
+
+Route::controller(CursoController::class)->group(function(){
+    Route::get('cursos','index');
+    Route::get('cursos/create','create');
+    Route::get('cursos/{curso}','show');
+});
+
+*/
