@@ -24,7 +24,7 @@ return "Bienvenido a mi proyecto de Laravel";
 
 Route::get('/', HomeController::class);
 
-
+/*
 Route::get('plugins', function () {
     return "Bienvenido a la página de plugins";
 });
@@ -37,3 +37,14 @@ Route::get('plugins/create', function () {
 Route::get('plugins/{plugin}', function ($plugin) {
     return "Url con la variable $plugin";
 });
+*/
+
+use App\Http\Controllers\PluginController;
+
+Route::get('/', HomeController::class);
+
+Route::get('plugins', [PluginController::class, 'index']);
+
+Route::get('plugins/create', [PluginController::class, 'create']);
+
+Route::get('plugins/{plugin}', [PluginController::class, 'show']);
