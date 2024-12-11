@@ -19,7 +19,6 @@
         </label>
         @error('name')
         <br>
-
             <small>*{{$message}}</small>
         <br>
         @enderror 
@@ -29,12 +28,11 @@
             Descripción:<br>
             <textarea name="description" rows="5">{{old('description',$plugin->description)}}</textarea>
         </label>
+        <br>
         @error('description')
-        <br>
-
             <small>*{{$message}}</small>
+            <br>
         @enderror 
-        <br>
         <button type="submit">Enviar formulario</button>
 
     </form>

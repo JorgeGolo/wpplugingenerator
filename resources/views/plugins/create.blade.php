@@ -16,9 +16,10 @@
             <input type="text" name="name" value="{{old('name')}}">
         </label>
         @error('name')
+        <br>
             <small>*{{$message}}</small>
-            <br>
-        @enderror
+        <br>
+        @enderror 
         <br>
     
         <label>
@@ -28,9 +29,8 @@
         <br>
         @error('description')
             <small>*{{$message}}</small>
-        <br>
+            <br>
         @enderror
-
         <button type="submit">Enviar formulario</button>
 
     </form>
