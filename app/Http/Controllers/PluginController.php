@@ -28,14 +28,21 @@ class PluginController extends Controller
 
     }
 
-    public function show($plugin){
+    //public function show($plugin){
+    // cambiamos la función anterior para usar find con id
 
+    public function show($id){
         //return "Url con la variable $curso";
         
         // definición de la variable
         //return view("plugins.show", ['plugin' => $plugin]);
 
         // Cuando tenemos intención de pasarle una variable a la vista que coincide con el nombre
+        //return view("plugins.show", compact("plugin"));
+
+        // cambiamos la función anterior para usar find con id
+        $plugin = Plugin::find($id);
+
         return view("plugins.show", compact("plugin"));
 
     }
