@@ -58,8 +58,18 @@ class PluginController extends Controller
 
         $plugin->save();
         
-        return redirect()->route('plugins.show',$plugin);
+        // no es necesario pasar la id, Laravel va a usarla de forma inteligente
+        //return redirect()->route('plugins.show',$plugin);
 
+        return redirect()->route('plugins.index');
     }
+
+    public function edit($id) {
+
+        $plugin = Plugin::find($id);
+        return $plugin;        
+        
+    }
+    
 
 }
