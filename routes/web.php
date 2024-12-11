@@ -43,7 +43,11 @@ use App\Http\Controllers\PluginController;
 
 Route::get('/', HomeController::class);
 
-Route::get('plugins', [PluginController::class, 'index']);
+//Route::get('plugins', [PluginController::class, 'index']);
+
+// uso de name en la ruta
+
+Route::get('plugins', [PluginController::class, 'index'])->name('plugins.index');
 
 Route::get('plugins/create', [PluginController::class, 'create']);
 

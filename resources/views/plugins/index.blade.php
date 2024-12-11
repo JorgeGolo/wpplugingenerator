@@ -3,10 +3,15 @@
 @section('title', 'Plugins')
 
 @section('content')
-<h3>Lista de plugins</h3>
-<ul>
-    @foreach ($plugins as $plugin)
-        <li>{{$plugin->name}}</li>
-    @endforeach
-</ul>
+
+    <a href="{{route('plugins.index')}}">Plugins</a>
+
+    <h3>Lista de plugins</h3>
+
+    <ul>
+        @foreach ($plugins as $plugin)
+            <li>{{$plugin->name}}</li>
+        @endforeach
+    </ul>
+
 @endsection
