@@ -5,6 +5,8 @@
 @section('content')
 
 <a href="{{route('plugins.index')}}">Plugins</a>
+<a href="{{route('plugins.create')}}">Crear</a>
+
 <h3>Lista de plugins</h3>
 <ul>
     @foreach ($plugins as $plugin)

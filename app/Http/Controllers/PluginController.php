@@ -46,5 +46,20 @@ class PluginController extends Controller
         return view("plugins.show", compact("plugin"));
 
     }
+    
+    public function store(Request $request){
+        //return $request->all();
+
+        
+        $plugin = new Plugin();
+
+        $plugin ->name= $request->name;
+        $plugin ->description= $request->description;
+
+        $plugin->save();
+        
+        return redirect()->route('plugins.show',$plugin);
+
+    }
 
 }

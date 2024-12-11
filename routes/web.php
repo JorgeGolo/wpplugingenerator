@@ -49,9 +49,11 @@ Route::get('/', HomeController::class);
 
 Route::get('plugins', [PluginController::class, 'index'])->name('plugins.index');
 
-Route::get('plugins/create', [PluginController::class, 'create']);
+Route::get('plugins/create', [PluginController::class, 'create'])->name('plugins.create');;
 
 Route::get('plugins/{plugin}', [PluginController::class, 'show'])->name('plugins.show');
+
+Route::post('plugins', [PluginController::class, 'store'])->name('plugins.store');
 
 /* uso de group */
 
