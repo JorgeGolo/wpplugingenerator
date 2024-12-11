@@ -67,8 +67,10 @@ class PluginController extends Controller
     public function edit($id) {
 
         $plugin = Plugin::find($id);
-        return $plugin;        
-        
+       // return $plugin;        
+       return view("plugins.edit", compact("plugin"));
+
+
     }
     
 
