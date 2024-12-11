@@ -99,6 +99,11 @@ class PluginController extends Controller
         // return $plugin;
         // return $request->all();
 
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
+
         $plugin->name= $request->name;
         $plugin->description= $request->description;
 
