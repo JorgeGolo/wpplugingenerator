@@ -55,8 +55,8 @@ Route::get('plugins/{plugin}', [PluginController::class, 'show'])->name('plugins
 
 Route::post('plugins', [PluginController::class, 'store'])->name('plugins.store');
 
-Route::get('plugins/{id}/edit', [PluginController::class, 'edit'])->name('plugins.edit');
-
+// Route::get('plugins/{id}/edit', [PluginController::class, 'edit'])->name('plugins.edit');
+Route::get('plugins/{plugin}/edit', [PluginController::class, 'edit'])->name('plugins.edit');
 
 /* uso de group */
 

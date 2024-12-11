@@ -64,12 +64,17 @@ class PluginController extends Controller
         return redirect()->route('plugins.index');
     }
 
+    /*
     public function edit($id) {
-
-        $plugin = Plugin::find($id);
-       // return $plugin;        
+       $plugin = Plugin::find($id);
        return view("plugins.edit", compact("plugin"));
+    } 
+    */
 
+
+    public function edit(Plugin $plugin) {
+
+       return view("plugins.edit", compact("plugin"));
 
     }
     
