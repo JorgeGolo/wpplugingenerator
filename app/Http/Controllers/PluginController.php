@@ -59,9 +59,13 @@ class PluginController extends Controller
 
 
     public function store(Request $request){
-        //return $request->all();
-
+        //return $request->all()
         
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
+
         $plugin = new Plugin();
 
         $plugin->name= $request->name;
@@ -71,6 +75,8 @@ class PluginController extends Controller
         
         // no es necesario pasar la id, Laravel va a usarla de forma inteligente
         //return redirect()->route('plugins.show',$plugin);
+
+
 
         return redirect()->route('plugins.index');
     }

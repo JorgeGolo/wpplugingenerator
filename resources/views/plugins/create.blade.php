@@ -13,15 +13,24 @@
 
         <label>
             Nombre:<br>
-            <input type="text" name="name">
+            <input type="text" name="name" value="{{old('name')}}">
         </label>
+        @error('name')
+            <small>*{{$message}}</small>
+            <br>
+        @enderror
         <br>
     
         <label>
             Descripción:<br>
-            <textarea name="description" rows="5"></textarea>
+            <textarea name="description" rows="5">{{old('description')}}</textarea>
         </label>
         <br>
+        @error('description')
+            <small>*{{$message}}</small>
+        <br>
+        @enderror
+
         <button type="submit">Enviar formulario</button>
 
     </form>
