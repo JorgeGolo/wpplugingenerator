@@ -58,6 +58,8 @@ Route::post('plugins', [PluginController::class, 'store'])->name('plugins.store'
 // Route::get('plugins/{id}/edit', [PluginController::class, 'edit'])->name('plugins.edit');
 Route::get('plugins/{plugin}/edit', [PluginController::class, 'edit'])->name('plugins.edit');
 
+Route::put('plugins/{plugin}', [PluginController::class, 'update'])->name('plugins.update');
+
 /* uso de group */
 
 /*

@@ -7,9 +7,11 @@
     <a href="{{route('plugins.index')}}">Plugins</a>
     <a href="{{route('plugins.create')}}">Crear</a>
 
-    <form action="{{route('plugins.store')}}" method="POST">
+    <form action="{{route('plugins.update', $plugin)}}" method="POST">
 
         @csrf
+
+        @method('put')
 
         <label>
             Nombre:<br>

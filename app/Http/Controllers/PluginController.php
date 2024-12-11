@@ -31,6 +31,7 @@ class PluginController extends Controller
     //public function show($plugin){
     // cambiamos la función anterior para usar find con id
 
+   /*
     public function show($id){
         //return "Url con la variable $curso";
         
@@ -46,15 +47,25 @@ class PluginController extends Controller
         return view("plugins.show", compact("plugin"));
 
     }
-    
+    */
+
+    // cambio en el tupo de variable
+    // ya no necesitamos el find
+    public function show(Plugin $plugin){
+ 
+        return view("plugins.show", compact("plugin"));
+
+    }
+
+
     public function store(Request $request){
         //return $request->all();
 
         
         $plugin = new Plugin();
 
-        $plugin ->name= $request->name;
-        $plugin ->description= $request->description;
+        $plugin->name= $request->name;
+        $plugin->description= $request->description;
 
         $plugin->save();
         
@@ -76,6 +87,21 @@ class PluginController extends Controller
 
        return view("plugins.edit", compact("plugin"));
 
+    }
+
+    public function update(Request $request, Plugin $plugin) {
+        // return $plugin;
+        // return $request->all();
+
+        $plugin->name= $request->name;
+        $plugin->description= $request->description;
+
+        $plugin->save();
+
+        //return redirect()->route('plugins.show',$plugin->id);
+        //return redirect()->route('plugins.show',$plugin);
+
+        return redirect()->route('plugins.index');
     }
     
 
