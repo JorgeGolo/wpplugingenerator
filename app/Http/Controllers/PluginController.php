@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Plugin;
 use Illuminate\Http\Request;
+use App\Http\Requests\StorePlugin;
 
 class PluginController extends Controller
 {
     public function index(){
 
-        // return "Bienvenido a la página de cursos";
+        // return "Bienvenido a la página de plugins";
         // return view("plugins.index");
 
         // counsulta a la base de datos mediante el modelo
@@ -58,7 +59,7 @@ class PluginController extends Controller
     }
 
 
-    public function store(Request $request){
+    public function store(StorePlugin $request){
         //return $request->all()
         
         $request->validate([
@@ -99,10 +100,7 @@ class PluginController extends Controller
         // return $plugin;
         // return $request->all();
 
-        $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-        ]);
+
 
         $plugin->name= $request->name;
         $plugin->description= $request->description;
