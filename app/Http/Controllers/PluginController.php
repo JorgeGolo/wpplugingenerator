@@ -69,11 +69,29 @@ class PluginController extends Controller
 
         $plugin = new Plugin();
 
+        /* First asignation */ 
+        /*
         $plugin->name= $request->name;
         $plugin->description= $request->description;
+        */
 
+        /* Second asignation */ 
+
+        /*
+        $plugin = Plugin::create([
+            'name' => $request->name,
+            'description' => $request->description
+        ]);
+        */
+
+        /* Third asignation */
+        /* fillable or guarded field required */
+
+        $plugin = Plugin::create($request->all());
+
+        /* saving */
         $plugin->save();
-        
+
         // no es necesario pasar la id, Laravel va a usarla de forma inteligente
         //return redirect()->route('plugins.show',$plugin);
 
@@ -100,10 +118,13 @@ class PluginController extends Controller
         // return $plugin;
         // return $request->all();
 
-
-
+        /*
         $plugin->name= $request->name;
         $plugin->description= $request->description;
+        */
+
+        /* Updating update request, new asignation way */
+        $plugin->update($request->all());
 
         $plugin->save();
 
