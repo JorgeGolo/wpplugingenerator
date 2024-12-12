@@ -134,5 +134,9 @@ class PluginController extends Controller
         return redirect()->route('plugins.index');
     }
     
+    public function destroy(Plugin $plugin) {
+        $plugin->delete();
+        return redirect()->route('plugins.index');
 
+    }    
 }

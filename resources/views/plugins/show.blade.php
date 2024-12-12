@@ -10,6 +10,10 @@
     <h1>Bienvenido al curso {{$plugin->name}}</h1>
 
     <a href="{{route('plugins.edit', $plugin)}}">Editar curso</a>
-
+    <form action="{{route('plugins.destroy',$plugin)}}" method="POST">
+        @csrf
+        @method('delete')
+        <button type="submit">Eliminar</button>
+    </form>
 
 @endsection

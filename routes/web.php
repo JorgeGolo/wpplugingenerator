@@ -60,6 +60,9 @@ Route::get('plugins/{plugin}/edit', [PluginController::class, 'edit'])->name('pl
 
 Route::put('plugins/{plugin}', [PluginController::class, 'update'])->name('plugins.update');
 
+Route::delete('plugins/{plugin}',[PluginController::class, 'destroy'])->name('plugins.destroy');
+
+
 /* uso de group */
 
 /*
