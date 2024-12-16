@@ -4,16 +4,61 @@
 
 @section('content')
 
-<a href="{{route('plugins.index')}}">Plugins</a>
-<a href="{{route('plugins.create')}}">Crear</a>
+@if (session('success'))
+    <div style="color: green;">{{ session('success') }}</div>
+@endif
 
-<h3>Lista de plugins</h3>
-<ul>
-    @foreach ($plugins as $plugin)
-        <li>
-            <a href="{{route('plugins.show', $plugin)}}">{{$plugin->name}}</a> 
-        </li>
-    @endforeach
-</ul>
+@if (session('error'))
+    <div style="color: red;">{{ session('error') }}</div>
+@endif
+
+<a href="{{ route('plugins.index') }}">Plugins</a>
+<a href="{{ route('plugins.create') }}">Crear</a>
+
+<h3>Lista de Plugins</h3>
+
+<table border="1" cellpadding="10">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Acciones</th>
+            <th>Generar</th>
+            <th>Borrar</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($plugins as $plugin)
+            <tr>
+                <td>{{ $plugin->id }}</td>
+                <td>{{ $plugin->name }}</td>
+                <td>{{ $plugin->description }}</td>
+                <td>
+                    <!-- Botón para generar -->
+                    <a href="{{ route('plugins.show', $plugin) }}">Ver</a>
+                    
+                    <!-- Botón para editar -->
+                    <a href="{{ route('plugins.edit', $plugin) }}">Editar</a>
+                </td>
+                <td>
+                    <a href="{{ route('plugins.generate', $plugin) }}" class="btn btn-primary">Generar</a>
+                </td>
+                <td>
+
+                    <!-- Botón para borrar -->
+                    <form action="{{ route('plugins.destroy', $plugin) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este plugin?')">Borrar</button>
+                    </form>
+
+
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
 
 @endsection

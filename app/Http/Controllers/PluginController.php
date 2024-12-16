@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Plugin;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePlugin;
+use Illuminate\Support\Facades\File; // Para manejar el sistema de archivos
+use Illuminate\Support\Facades\Storage;
 
 class PluginController extends Controller
 {
@@ -148,4 +150,27 @@ class PluginController extends Controller
         return redirect()->route('plugins.index');
 
     }    
+
+    public function generate(Plugin $plugin)
+    {
+        // Define el directorio donde se creará la carpeta
+        $basePath = public_path('generated'); // Cambiado a public_path para apuntar a la carpeta correcta
+    
+        // Asegúrate de que la carpeta base exista
+        if (!File::exists($basePath)) {
+            File::makeDirectory($basePath, 0755, true); // Crea la carpeta con permisos recursivos
+        }
+    
+        // Crea una carpeta con el slug del plugin
+        $pluginPath = $basePath . '/' . $plugin->slug;
+    
+        if (File::exists($pluginPath)) {
+            return redirect()->route('plugins.index')->with('error', 'La carpeta ya existe.');
+        }
+    
+        File::makeDirectory($pluginPath, 0755, true);
+    
+        return redirect()->route('plugins.index')->with('success', 'Carpeta generada correctamente.');
+    }
+    
 }
