@@ -65,6 +65,7 @@ class PluginController extends Controller
         $request->validate([
             'name' => 'required',
             'description' => 'required',
+
         ]);
 
         $plugin = new Plugin();
@@ -87,7 +88,15 @@ class PluginController extends Controller
         /* Third asignation */
         /* fillable or guarded field required */
 
-        $plugin = Plugin::create($request->all());
+        //$plugin = Plugin::create($request->all());
+
+
+        // Usando fillable y el mutator del slug
+        $plugin = Plugin::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'slug' => $request->name, // El mutator generará el slug automáticamente
+        ]);
 
         /* saving */
         $plugin->save();
@@ -118,13 +127,13 @@ class PluginController extends Controller
         // return $plugin;
         // return $request->all();
 
-        /*
+        
         $plugin->name= $request->name;
         $plugin->description= $request->description;
-        */
+        $plugin->slug= $request->name;
 
         /* Updating update request, new asignation way */
-        $plugin->update($request->all());
+        //$plugin->update($request->all());
 
         $plugin->save();
 

@@ -11,7 +11,7 @@
 <ul>
     @foreach ($plugins as $plugin)
         <li>
-            <a href="{{route('plugins.show', $plugin->id)}}">{{$plugin->name}}</a> 
+            <a href="{{route('plugins.show', $plugin)}}">{{$plugin->name}}</a> 
         </li>
     @endforeach
 </ul>

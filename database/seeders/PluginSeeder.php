@@ -18,18 +18,21 @@ class PluginSeeder extends Seeder
         $plugin = new Plugin();
         $plugin->name = 'Plugin de Ejemplo';
         $plugin->description = 'Descripción del plugin';
+        $plugin->slug = 'plugin-de-ejemplo';
 
         $plugin->save();
 
         $plugin = new Plugin();
-        $plugin->name = 'Plugin de Ejemplo';
+        $plugin->name = 'Plugin de Ejemplo 2';
         $plugin->description = 'Descripción del plugin';
+        $plugin->slug = 'plugin-de-ejemplo-2';
 
         $plugin->save();
 
         $plugin = new Plugin();
-        $plugin->name = 'Plugin de Ejemplo';
+        $plugin->name = 'Plugin de Ejemplo 3';
         $plugin->description = 'Descripción del plugin';
+        $plugin->slug = 'plugin-de-ejemplo-3';
 
         $plugin->save();
     }
