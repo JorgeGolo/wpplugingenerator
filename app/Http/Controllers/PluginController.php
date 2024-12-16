@@ -169,8 +169,35 @@ class PluginController extends Controller
         }
     
         File::makeDirectory($pluginPath, 0755, true);
-    
-        return redirect()->route('plugins.index')->with('success', 'Carpeta generada correctamente.');
+
+        // Crear el archivo readme.txt con contenido
+        $readmeContent = <<<EOT
+        === {$plugin->name} ===
+        Contributors: jorgegl
+        Tags: 
+        Requires at least: 4.7
+        Tested up to: 6.7
+        Stable tag: 1.2
+        License: GPLv2 or later
+        License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+        {$plugin->description}
+
+        EOT;
+
+        File::put($pluginPath . '/readme.txt', $readmeContent);
+
+        // Crear el archivo PHP con el nombre del slug
+        $phpFileContent = <<<PHP
+        <?php
+        // Archivo generado automáticamente para el plugin "{$plugin->name}"
+        echo "Este es el archivo del plugin {$plugin->name}";
+        PHP;
+
+        File::put($pluginPath . '/' . $plugin->slug . '.php', $phpFileContent);
+
+        return redirect()->route('plugins.index')->with('success', 'Carpeta y archivo README generados correctamente.');
+        
     }
     
 }

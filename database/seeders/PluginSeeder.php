@@ -29,11 +29,5 @@ class PluginSeeder extends Seeder
 
         $plugin->save();
 
-        $plugin = new Plugin();
-        $plugin->name = 'Plugin de Ejemplo 3';
-        $plugin->description = 'Descripción del plugin';
-        $plugin->slug = 'plugin-de-ejemplo-3';
-
-        $plugin->save();
     }
 }

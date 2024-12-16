@@ -9,12 +9,12 @@ use Illuminate\Support\Str;
 class Plugin extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'description', 'slug']; // Incluye 'slug' en fillable si usas el tercer método
+    protected $fillable = ['name', 'description', 'slug']; 
 
     // Mutator para el campo 'slug'
     public function setSlugAttribute($value)
     {
-        $this->attributes['slug'] = Str::slug($value ?? $this->attributes['name']);
+        $this->attributes['slug'] = strtolower(str_replace(' ', '', $value ?? $this->attributes['name']));
     }
 
     public function getRouteKeyName()
