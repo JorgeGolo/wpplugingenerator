@@ -24,7 +24,6 @@
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Acciones</th>
-            <th>Generar</th>
             <th>Borrar</th>
 
         </tr>
@@ -42,9 +41,7 @@
                     <!-- Botón para editar -->
                     <a href="{{ route('plugins.edit', $plugin) }}">Editar</a>
                 </td>
-                <td>
-                    <a href="{{ route('plugins.generate', $plugin) }}" class="btn btn-primary">Generar</a>
-                </td>
+
                 <td>
 
                     <!-- Botón para borrar -->

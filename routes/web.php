@@ -62,7 +62,7 @@ Route::put('plugins/{plugin}', [PluginController::class, 'update'])->name('plugi
 
 Route::delete('plugins/{plugin}',[PluginController::class, 'destroy'])->name('plugins.destroy');
 
-Route::get('plugins/{plugin}/generate', [PluginController::class, 'generate'])->name('plugins.generate');
+//Route::get('plugins/{plugin}/generate', [PluginController::class, 'generate'])->name('plugins.generate');
 
 /* uso de group */
 
