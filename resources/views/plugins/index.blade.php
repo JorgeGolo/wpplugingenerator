@@ -24,6 +24,7 @@
             <th>Nombre</th>
             <th>Descripción</th>
             <th>Acciones</th>
+            <th>Descargar</th>
             <th>Borrar</th>
 
         </tr>
@@ -42,6 +43,17 @@
                     <a href="{{ route('plugins.edit', $plugin) }}">Editar</a>
                 </td>
 
+
+                <td>
+
+                    <!-- Botón para descargar -->
+                    <form action="{{ route('plugins.download', $plugin) }}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit">Descargar</button>
+                    </form>
+
+                </td>
+
                 <td>
 
                     <!-- Botón para borrar -->
@@ -51,8 +63,8 @@
                         <button type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este plugin?')">Borrar</button>
                     </form>
 
-
                 </td>
+                
             </tr>
         @endforeach
     </tbody>

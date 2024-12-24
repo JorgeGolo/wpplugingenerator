@@ -62,6 +62,9 @@ Route::put('plugins/{plugin}', [PluginController::class, 'update'])->name('plugi
 
 Route::delete('plugins/{plugin}',[PluginController::class, 'destroy'])->name('plugins.destroy');
 
+Route::post('plugins/{plugin}',[PluginController::class, 'download'])->name('plugins.download');
+
+
 //Route::get('plugins/{plugin}/generate', [PluginController::class, 'generate'])->name('plugins.generate');
 
 /* uso de group */

@@ -125,6 +125,44 @@ class PluginController extends Controller
 
     }
 
+    public function download(Plugin $plugin) {
+             
+        $basePath = public_path('generated');
+
+        $pluginPath = $basePath . '/' . $plugin->slug;
+
+        // Crear el archivo ZIP
+        $zipFilePath = $basePath . '/' . $plugin->slug . '.zip'; // Ruta del archivo ZIP
+        $zip = new \ZipArchive();
+
+        if ($zip->open($zipFilePath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
+            // Agregar la carpeta completa al ZIP
+            $files = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($pluginPath),
+                \RecursiveIteratorIterator::LEAVES_ONLY
+            );
+
+            foreach ($files as $file) {
+                if (!$file->isDir()) {
+                    $filePath = $file->getRealPath();
+                    $relativePath = substr($filePath, strlen($pluginPath) + 1);
+                    $zip->addFile($filePath, $relativePath);
+                }
+            }
+
+            $zip->close();
+        } else {
+            return redirect()->route('plugins.index')->with('error', 'Error al crear el archivo ZIP.');
+        }
+
+        // Eliminar la carpeta generada si no necesitas conservarla
+        // File::deleteDirectory($pluginPath);
+
+        // Descargar el archivo ZIP
+        return response()->download($zipFilePath)->deleteFileAfterSend(true);
+
+    }
+
     public function update(Request $request, Plugin $plugin)
 {
     // Guardar los valores actuales antes de actualizar
@@ -178,23 +216,30 @@ class PluginController extends Controller
     return redirect()->route('plugins.index')->with('success', 'Plugin y archivos actualizados correctamente.');
 }
 
-    
-    public function destroy(Plugin $plugin)
-    {
-        // Define la ruta base de la carpeta generada del plugin
-        $pluginPath = public_path('generated/' . $plugin->slug);
+public function destroy(Plugin $plugin)
+{
+    // Define la ruta base de la carpeta generada del plugin
+    $pluginPath = public_path('generated/' . $plugin->slug);
 
-        // Verifica si la carpeta existe y elimínala
-        if (File::exists($pluginPath)) {
-            File::deleteDirectory($pluginPath); // Elimina la carpeta y todos sus archivos
-        }
-
-        // Elimina el registro del plugin en la base de datos
-        $plugin->delete();
-
-        // Redirige al usuario con un mensaje de éxito
-        return redirect()->route('plugins.index')->with('success', 'El plugin y su carpeta han sido eliminados correctamente.');
+    // Verifica si la carpeta existe y elimínala
+    if (File::exists($pluginPath)) {
+        File::deleteDirectory($pluginPath); // Elimina la carpeta y todos sus archivos
     }
+
+    // Define la ruta del archivo ZIP del plugin
+    $zipFilePath = public_path('generated/' . $plugin->slug . '.zip');
+
+    // Verifica si el archivo ZIP existe y elimínalo
+    if (File::exists($zipFilePath)) {
+        File::delete($zipFilePath); // Elimina el archivo ZIP
+    }
+
+    // Elimina el registro del plugin en la base de datos
+    $plugin->delete();
+
+    // Redirige al usuario con un mensaje de éxito
+    return redirect()->route('plugins.index')->with('success', 'El plugin, su carpeta y el archivo ZIP han sido eliminados correctamente.');
+}
 
     public function generate(Plugin $plugin)
     {
@@ -220,6 +265,9 @@ class PluginController extends Controller
         $languagesPath = $pluginPath . '/languages';
         if (!File::exists($languagesPath)) {
             File::makeDirectory($languagesPath, 0755, true); // Crea la carpeta con permisos recursivos
+
+            // Añade un archivo .keep para asegurarte de que se incluya en los archivos comprimidos
+            File::put($languagesPath . '/.keep', '');
         }
 
         // Crea una carpeta assets
@@ -347,8 +395,8 @@ class PluginController extends Controller
 
         File::put($pluginPath . '/' . $plugin->slug . '.php', $phpFileContent);
 
-        //return redirect()->route('plugins.index')->with('success', 'Carpeta y archivo README generados correctamente.');
-        
-    }
+        return redirect()->route('plugins.index')->with('success', 'Carpeta y archivo README generados correctamente.');
+
+     }
     
 }
