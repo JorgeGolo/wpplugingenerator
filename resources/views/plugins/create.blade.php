@@ -12,7 +12,7 @@
         @csrf
 
         <label>
-            Nombre:<br>
+            Nombre:
             <input type="text" name="name" value="{{old('name')}}">
         </label>
         @error('name')
@@ -21,9 +21,14 @@
         <br>
         @enderror 
         <br>
+
+        <label>
+            Prefijo:
+            <input type="text" name="prefix" value="">
+        </label>
     
         <label>
-            Descripción:<br>
+            Descripción:
             <textarea name="description" rows="5">{{old('description')}}</textarea>
         </label>
         <br>

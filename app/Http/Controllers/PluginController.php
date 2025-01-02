@@ -164,82 +164,82 @@ class PluginController extends Controller
     }
 
     public function update(Request $request, Plugin $plugin)
-{
-    // Guardar los valores actuales antes de actualizar
-    $oldSlug = $plugin->slug;
+    {
+        // Guardar los valores actuales antes de actualizar
+        $oldSlug = $plugin->slug;
 
-    // Actualizar los datos del plugin
-    $plugin->name = $request->name;
-    $plugin->description = $request->description;
-    $plugin->slug = $request->name; // Actualiza el slug basado en el nuevo nombre
-    $plugin->save();
+        // Actualizar los datos del plugin
+        $plugin->name = $request->name;
+        $plugin->description = $request->description;
+        $plugin->slug = $request->name; // Actualiza el slug basado en el nuevo nombre
+        $plugin->save();
 
-    // Actualizar los archivos y carpetas
-    $basePath = public_path('generated');
-    $oldPluginPath = $basePath . '/' . $oldSlug;
-    $newPluginPath = $basePath . '/' . $plugin->slug;
+        // Actualizar los archivos y carpetas
+        $basePath = public_path('generated');
+        $oldPluginPath = $basePath . '/' . $oldSlug;
+        $newPluginPath = $basePath . '/' . $plugin->slug;
 
-    // Si el slug cambió, renombrar la carpeta
-    if ($oldSlug !== $plugin->slug && File::exists($oldPluginPath)) {
-        File::move($oldPluginPath, $newPluginPath);
+        // Si el slug cambió, renombrar la carpeta
+        if ($oldSlug !== $plugin->slug && File::exists($oldPluginPath)) {
+            File::move($oldPluginPath, $newPluginPath);
+        }
+
+        // Actualizar el contenido de los archivos
+        $readmePath = $newPluginPath . '/readme.txt';
+        $phpFilePath = $newPluginPath . '/' . $plugin->slug . '.php';
+
+        if (File::exists($readmePath)) {
+            $readmeContent = <<<EOT
+            === {$plugin->name} ===
+            Contributors: jorgegl
+            Tags: 
+            Requires at least: 4.7
+            Tested up to: 6.7
+            Stable tag: 1.0
+            License: GPLv2 or later
+            License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+            {$plugin->description}
+            EOT;
+            File::put($readmePath, $readmeContent);
+        }
+
+        if (File::exists($phpFilePath)) {
+            $phpFileContent = <<<PHP
+            <?php
+            // Archivo generado automáticamente para el plugin "{$plugin->name}"
+            echo "Este es el archivo del plugin {$plugin->name}";
+            PHP;
+            File::put($phpFilePath, $phpFileContent);
+        }
+
+        return redirect()->route('plugins.index')->with('success', 'Plugin y archivos actualizados correctamente.');
     }
 
-    // Actualizar el contenido de los archivos
-    $readmePath = $newPluginPath . '/readme.txt';
-    $phpFilePath = $newPluginPath . '/' . $plugin->slug . '.php';
+    public function destroy(Plugin $plugin)
+    {
+        // Define la ruta base de la carpeta generada del plugin
+        $pluginPath = public_path('generated/' . $plugin->slug);
 
-    if (File::exists($readmePath)) {
-        $readmeContent = <<<EOT
-        === {$plugin->name} ===
-        Contributors: jorgegl
-        Tags: 
-        Requires at least: 4.7
-        Tested up to: 6.7
-        Stable tag: 1.0
-        License: GPLv2 or later
-        License URI: https://www.gnu.org/licenses/gpl-2.0.html
+        // Verifica si la carpeta existe y elimínala
+        if (File::exists($pluginPath)) {
+            File::deleteDirectory($pluginPath); // Elimina la carpeta y todos sus archivos
+        }
 
-        {$plugin->description}
-        EOT;
-        File::put($readmePath, $readmeContent);
+        // Define la ruta del archivo ZIP del plugin
+        $zipFilePath = public_path('generated/' . $plugin->slug . '.zip');
+
+        // Verifica si el archivo ZIP existe y elimínalo
+        if (File::exists($zipFilePath)) {
+            File::delete($zipFilePath); // Elimina el archivo ZIP
+        }
+
+        // Elimina el registro del plugin en la base de datos
+        $plugin->delete();
+
+        // Redirige al usuario con un mensaje de éxito
+        return redirect()->route('plugins.index')->with('success', 'El plugin, su carpeta y el archivo ZIP han sido eliminados correctamente.');
     }
-
-    if (File::exists($phpFilePath)) {
-        $phpFileContent = <<<PHP
-        <?php
-        // Archivo generado automáticamente para el plugin "{$plugin->name}"
-        echo "Este es el archivo del plugin {$plugin->name}";
-        PHP;
-        File::put($phpFilePath, $phpFileContent);
-    }
-
-    return redirect()->route('plugins.index')->with('success', 'Plugin y archivos actualizados correctamente.');
-}
-
-public function destroy(Plugin $plugin)
-{
-    // Define la ruta base de la carpeta generada del plugin
-    $pluginPath = public_path('generated/' . $plugin->slug);
-
-    // Verifica si la carpeta existe y elimínala
-    if (File::exists($pluginPath)) {
-        File::deleteDirectory($pluginPath); // Elimina la carpeta y todos sus archivos
-    }
-
-    // Define la ruta del archivo ZIP del plugin
-    $zipFilePath = public_path('generated/' . $plugin->slug . '.zip');
-
-    // Verifica si el archivo ZIP existe y elimínalo
-    if (File::exists($zipFilePath)) {
-        File::delete($zipFilePath); // Elimina el archivo ZIP
-    }
-
-    // Elimina el registro del plugin en la base de datos
-    $plugin->delete();
-
-    // Redirige al usuario con un mensaje de éxito
-    return redirect()->route('plugins.index')->with('success', 'El plugin, su carpeta y el archivo ZIP han sido eliminados correctamente.');
-}
 
     public function generate(Plugin $plugin)
     {
@@ -342,7 +342,7 @@ public function destroy(Plugin $plugin)
         add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), '{$plugin->slug}_add_settings_link' );
 
         function {$plugin->slug}_add_settings_link( \$links ) {
-            \$settings_link = '<a href="options-general.php?page={$plugin->slug}-settings">' . esc_html__( 'Settings', '{$plugin->name}' ) . '</a>';
+            \$settings_link = '<a href="options-general.php?page={$plugin->slug}-settings">' . esc_html__( 'Settings', '{$plugin->slug}' ) . '</a>';
             array_unshift( \$links, \$settings_link );
             return \$links;
         }
