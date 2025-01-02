@@ -19,6 +19,7 @@ class PluginSeeder extends Seeder
         $plugin->name = 'Plugin de Ejemplo';
         $plugin->description = 'Descripción del plugin';
         $plugin->slug = 'plugin-de-ejemplo';
+        $plugin->prefix = 'mittsfcpde';
 
         $plugin->save();
 
@@ -26,6 +27,7 @@ class PluginSeeder extends Seeder
         $plugin->name = 'Plugin de Ejemplo 2';
         $plugin->description = 'Descripción del plugin';
         $plugin->slug = 'plugin-de-ejemplo-2';
+        $plugin->prefix = 'mittsfcpde2';
 
         $plugin->save();
 

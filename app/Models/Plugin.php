@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class Plugin extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'description', 'slug']; 
+    protected $fillable = ['name', 'description', 'slug', 'prefix']; 
 
     // Mutator para el campo 'slug'
     public function setSlugAttribute($value)

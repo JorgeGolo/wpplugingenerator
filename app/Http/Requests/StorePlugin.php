@@ -26,6 +26,7 @@ class StorePlugin extends FormRequest
         return [
             'name' => 'required',
             'description' => 'required',
+            'prefix' => 'required',
         ];
     }
 }

@@ -24,9 +24,10 @@
 
         <label>
             Prefijo:
-            <input type="text" name="prefix" value="">
+            <input type="text" name="prefix" value="{{old('prefix')}}">
         </label>
     
+        <br>
         <label>
             Descripción:
             <textarea name="description" rows="5">{{old('description')}}</textarea>

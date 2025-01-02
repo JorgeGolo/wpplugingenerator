@@ -64,11 +64,13 @@ class PluginController extends Controller
     public function store(StorePlugin $request){
         //return $request->all()
         
+        /*
         $request->validate([
             'name' => 'required',
             'description' => 'required',
-
+            'prefix' => 'required',
         ]);
+        */
 
         $plugin = new Plugin();
 
@@ -98,6 +100,7 @@ class PluginController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'slug' => $request->name, // El mutator generará el slug automáticamente
+            'prefix' => $request->prefix,
         ]);
 
         /* saving */
