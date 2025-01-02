@@ -26,7 +26,12 @@
             Prefijo:
             <input type="text" name="prefix" value="{{old('prefix')}}">
         </label>
-    
+        @error('prefix')
+        <br>
+            <small>*{{$message}}</small>
+        <br>
+        @enderror 
+
         <br>
         <label>
             Descripción:
@@ -41,4 +46,9 @@
 
     </form>
 
+    <hr/>
+
+    <p><b>Nota para el prefijo:</b> El prefijo debe cumplir cierts normas para la validación del plugin.</p>
+    <p>A efectos de continuidad, es preferible que el prefijo comience con los acaracteres "mittsfc".</p>
+    
 @endsection

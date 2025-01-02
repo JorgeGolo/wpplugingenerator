@@ -297,7 +297,7 @@ class PluginController extends Controller
         console.log('Script cargado para el plugin {$plugin->name}');
         JS;
 
-        File::put($jsPath . '/script.js', $jsFileContent);
+        File::put($jsPath . '/'.$plugin->prefix.'_script.js', $jsFileContent);
 
         // Crear archivo CSS en la carpeta 'css'
         $cssFileContent = <<<CSS
@@ -307,7 +307,7 @@ class PluginController extends Controller
         }
         CSS;
 
-        File::put($cssPath . '/style.css', $cssFileContent);
+        File::put($cssPath . '/'.$plugin->prefix.'_style.css', $cssFileContent);
 
         // Crear el archivo readme.txt con contenido
         $readmeContent = <<<EOT
@@ -342,7 +342,7 @@ class PluginController extends Controller
         */
 
         // Enlace directo a los ajustes
-        add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), '{$plugin->slug}_add_settings_link' );
+        add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), '{$plugin->prefix}_add_settings_link' );
 
         function {$plugin->slug}_add_settings_link( \$links ) {
             \$settings_link = '<a href="options-general.php?page={$plugin->slug}-settings">' . esc_html__( 'Settings', '{$plugin->slug}' ) . '</a>';
@@ -351,31 +351,31 @@ class PluginController extends Controller
         }
 
         // carga de archivos de traducción
-        add_action( 'plugins_loaded', '{$plugin->slug}_load_textdomain' );
+        add_action( 'plugins_loaded', '{$plugin->prefix}_load_textdomain' );
         function pluginname_load_textdomain() {
             load_plugin_textdomain( '{$plugin->slug}', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
         }
 
         // Añadir un menú en el panel de administración
-        add_action( 'admin_menu', '{$plugin->slug}_add_admin_menu' );
-        function {$plugin->slug}_add_admin_menu() {
+        add_action( 'admin_menu', '{$plugin->prefix}_add_admin_menu' );
+        function {$plugin->prefix}_add_admin_menu() {
             add_options_page(
                 __( 'Plugin Settings', '{$plugin->slug}' ), // Título de la página
                 __( 'Plugin Name', '{$plugin->slug}' ),    // Nombre del menú
                 'manage_options',                     // Permiso necesario
                 '{$plugin->slug}-settings',                // Slug único
-                '{$plugin->slug}_settings_page'            // Función para mostrar la página
+                '{$plugin->prefix}_settings_page'            // Función para mostrar la página
             );
         }
 
         // Página de ajustes del plugin
-        function {$plugin->slug}_settings_page() {
+        function {$plugin->prefix}_settings_page() {
             ?>
             <div class="wrap">
                 <h1><?php esc_html_e( 'Plugin Settings', '{$plugin->slug}' ); ?></h1>
                 <form method="post" action="options.php">
                     <?php
-                    settings_fields( '{$plugin->slug}_settings_group' );
+                    settings_fields( '{$plugin->prefix}_settings_group' );
                     do_settings_sections( '{$plugin->slug}-settings' );
                     submit_button();
                     ?>
@@ -385,13 +385,13 @@ class PluginController extends Controller
         }
 
         // Carga de archivos JS y CSS
-        add_action( 'admin_enqueue_scripts', '{$plugin->slug}_enqueue_admin_scripts' );
-        function {$plugin->slug}_enqueue_admin_scripts( \$hook ) {
+        add_action( 'admin_enqueue_scripts', '{$plugin->prefix}_enqueue_admin_scripts' );
+        function {$plugin->prefix}_enqueue_admin_scripts( \$hook ) {
             if ( \$hook !== 'settings_page_{$plugin->slug}-settings' ) {
                 return;
             }
-            wp_enqueue_script( '{$plugin->slug}-script', plugin_dir_url( __FILE__ ) . 'assets/js/script.js', array( 'jquery' ), '1.0', true );
-            wp_enqueue_style( '{$plugin->slug}-style', plugin_dir_url( __FILE__ ) . 'assets/css/style.css', array(), '1.0' );
+            wp_enqueue_script( '{$plugin->prefix}-script', plugin_dir_url( __FILE__ ) . 'assets/js/script.js', array( 'jquery' ), '1.0', true );
+            wp_enqueue_style( '{$plugin->prefix}-style', plugin_dir_url( __FILE__ ) . 'assets/css/style.css', array(), '1.0' );
         }
 
         PHP;
